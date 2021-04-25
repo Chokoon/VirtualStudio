@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="aframe092.min.js"></script>
+    <script src="aframe-extras.min.js"></script>
+    <script src="aframe-particle-system-component.min.js"></script>
+    <script src="aframe-physics-system.min.js"></script>
+    <script src="pace.min.js"></script>
+    <script src="camera-cube-env.js"></script>
+    <script src="refract-cube-env.js"></script>
+    <script>
+
+          // Wait for model to load.
+          this.el.addEventListener('model-loaded', () => {
+
+      });
+    </script>
+    <link rel="stylesheet" href="loading.css" />
+  </head>
+  <body>
+    <a-scene background="color: #ECECEC" renderer="antialias: true;
+                   colorManagement: true;
+                   sortObjects: true;
+                   physicallyCorrectLights: true;
+                   maxCanvasWidth: 1920;
+                   maxCanvasHeight: 1920;">
+
+      <a-assets>
+
+        <a-asset-item id="VirtualStudio" src="scene.gltf"></a-asset-item>
+        <img id="skyTexture" src="sky2.jpg">
+        <!--<img id="ground" src="satellite2.jpg">-->
+
+      </a-assets>
+
+      <a-grid height="5500" width="5500" position="0 30 1000" visible="false" static-body></a-grid>
+      <a-entity gltf-model="#VirtualStudio" scale="0.2 0.2 0.2" position="0 0 0" rotation="0 270 0" camera-cube-env="distance:10000; resolution: 256"></a-entity>
+      <a-sky id="bg" radius="2200" src="#skyTexture" theta-length="90" position="0 0 1000"></a-sky>
+      <!--<a-plane src="#ground" height="5500" width="5500" position="0 0 1000" rotation="-90 -90 0"></a-plane>-->
+      <!-- Default lighting injected by A-Frame. -->
+      <a-entity light="type: ambient; color: #BBB; intensity: 5"></a-entity>
+      <a-entity light="type: directional; color: #FFF; intensity: 1" position="-0.5 1 1"></a-entity>
+      <a-entity camera="fov: 60" look-controls wasd-controls="acceleration:10000" position="0 30 700" kinematic-body></a-entity>
+      <a-entity id="particles" position="0 250 1000" particle-system="preset:dust; color: #ffea00; positionSpread: 2500 500 2500; particleCount: 5000"></a-entity>
+
+      <!-- Collision Wall -->
+      <a-box color="red" width="50" height="400" depth="2500" position="1020 0 1000" visible="false" static-body></a-box>
+      <a-box color="red" width="50" height="400" depth="2500" position="-1020 0 1000" visible="false" static-body></a-box>
+      <a-box color="red" width="2500" height="400" depth="50" position="0 0 -80" visible="false" static-body></a-box>
+      <a-box color="red" width="2500" height="400" depth="50" position="0 0 1960" visible="false" static-body></a-box>
+    </a-scene>
+
+    <script>
+
+      // On mobile remove elements that are resource heavy
+      var isMobile = AFRAME.utils.device.isMobile();
+
+      if (isMobile)
+      {
+        var particles = document.getElementById('particles');
+        particles.parentNode.removeChild(particles);
+      }
+
+    </script>
+
+  </body>
+
+</html>
